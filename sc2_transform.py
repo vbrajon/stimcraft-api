@@ -20,10 +20,10 @@ def find_player(player):
     units = ['scv', 'marine', 'marauder', 'reaper', 'ghost', 'hellion', 'siege-tank', 'thor', 'viking', 'medivac', 'raven', 'banshee', 'battlecruiser', 'hellbat', 'widow-mine', 'liberator', 'cyclone', 'probe', 'zealot', 'stalker', 'sentry', 'observer', 'immortal', 'warp-prism', 'colossus', 'phoenix', 'void-ray', 'high-templar', 'dark-templar', 'archon', 'carrier', 'mothership', 'mothership-core', 'oracle', 'tempest', 'adept', 'disruptor', 'drone', 'overlord', 'zergling', 'queen', 'hydralisk', 'baneling', 'overseer', 'roach', 'infestor', 'mutalisk', 'corruptor', 'nydus-worm', 'ultralisk', 'brood-lord', 'swarm-host', 'viper', 'ravager', 'lurker']
     buildings = ['command-center', 'supply-depot', 'refinery', 'barracks', 'orbital-command', 'planetary-fortress', 'engineering-bay', 'bunker', 'missile-turret', 'sensor-tower', 'factory', 'ghost-academy', 'armory', 'starport', 'fusion-core', 'tech-lab', 'reactor', 'nexus', 'pylon', 'assimilator', 'gateway', 'forge', 'photon-cannon', 'warpgate', 'cybernetics-core', 'twilight-council', 'robotics-facility', 'stargate', 'templar-archives', 'dark-shrine', 'robotics-bay', 'fleet-beacon',  'evolution-chamber', 'hatchery', 'extractor', 'spawning-pool', 'spine-crawler', 'spire', 'roach-warren', 'infestation-pit', 'spore-crawler', 'hydralisk-den', 'baneling-nest', 'lair', 'nydus-network', 'hive', 'ultralisk-cavern', 'greater-spire']
 
-    build = [{
-            'second': e['_gameloop'] / 24,
-            'unit': e['m_unitTypeName'],
-        } for e in t
+    build = [[
+        e['_gameloop'] / 24,
+        e['m_unitTypeName']
+    ] for e in t
         if 'm_unitTypeName' in e
         and 'm_controlPlayerId' in e
         and e['_gameloop'] is not 0

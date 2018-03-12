@@ -9,10 +9,10 @@ from sc2_transform import sc2_transform
 @click.option('--flag', '-f', multiple=True,
               default=['header', 'details', 'initdata', 'gameevents', 'messageevents', 'trackerevents', 'attributeevents'],
               help='Limit output to certain flags. ex: -f header -f details')
-@click.option('--details', '-d', is_flag=True)
-def cmd_extract(file, flag, details):
+@click.option('--simple', '-s', is_flag=True)
+def cmd_extract(file, flag, simple):
     extract = sc2_extract(file, flag)
-    if details:
+    if simple:
         extract = sc2_transform(extract)
     extract_utf8 = convert(extract)
     extract_json = json.dumps(extract_utf8)

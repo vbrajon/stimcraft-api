@@ -8,36 +8,24 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
-@app.route('/<extention>/<replay_id>')
+@app.route('/<replay_id>')
 @crossdomain(origin='*')
-def slash(extention, replay_id):
+def raw(replay_id):
     if (replay_id[:2] == 'gg'): provider = 'ggtracker'
     if (replay_id[:2] == 'ss'): provider = 'sc2replaystats'
     if (replay_id[:2] == 'st'): provider = 'spawningtool'
-    if (replay_id[:2] == 'me'): provider = 'me'
-    replay_file = 'replay/{}/{}/{}.SC2Replay'.format(provider, extention, replay_id[3:])
-    raw = sc2_extract(replay_file)
-    data = sc2_transform(raw)
+    if (replay_id[:2] == 'sc'): provider = 'stimcraft'
+    replay_file = 'replay/{}/{}.SC2Replay'.format(provider, replay_id[3:])
 
-    res = jsonify(data)
-    res.status_code = 200
-    return res
+    if request.args.get('simple'):
+        raw = sc2_extract(replay_file)
+        data = sc2_transform(raw)
+        res = jsonify(data)
+    else:
+        flag = request.args.get('flag', ','.join(['header', 'details', 'initdata', 'gameevents', 'messageevents', 'trackerevents', 'attributeevents'])).split(',')
+        raw = sc2_extract(replay_file, flag=flag)
+        res = jsonify(raw)
 
-
-@app.route('/raw/<extention>/<replay_id>')
-@crossdomain(origin='*')
-def raw(extention, replay_id):
-    if (replay_id[:2] == 'gg'): provider = 'ggtracker'
-    if (replay_id[:2] == 'ss'): provider = 'sc2replaystats'
-    if (replay_id[:2] == 'st'): provider = 'spawningtool'
-    if (replay_id[:2] == 'me'): provider = 'me'
-    replay_file = 'replay/{}/{}/{}.SC2Replay'.format(provider, extention, replay_id[3:])
-    default = ','.join(['header', 'details', 'initdata', 'gameevents',
-                        'messageevents', 'trackerevents', 'attributeevents'])
-    flag = request.args.get('flag', default).split(',')
-    raw = sc2_extract(replay_file, flag=flag)
-
-    res = jsonify(raw)
     res.status_code = 200
     return res
 

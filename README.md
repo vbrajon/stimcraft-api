@@ -18,8 +18,12 @@ export PATH=$PATH:~/go/bin
 # 2488 - 303M - replay/sc2replaystats
 # 2290 - 420M - replay/spawningtool
 
-python2 cli.py {}.SC2Replay
-python2 cli.py -d {}.SC2Replay
+python2 cli.py replay/ggtracker/7229669.SC2Replay
+python2 cli.py -s replay/ggtracker/7229669.SC2Replay
+
+python2 api.py
+curl http://127.0.0.1:5000/gg-7229669
+curl http://127.0.0.1:5000/gg-7229669?simple=1
 ```
 
 ## Schema
